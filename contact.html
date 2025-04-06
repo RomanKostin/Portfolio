@@ -9,10 +9,32 @@
         <h1>Контакты</h1>
         <p>Я Блынкус, моя почта - blinkus@example.com</p>
         <h2>Связаться со мной</h2>
-        <form>
-            <input type="text" placeholder="Ваше имя"><br>
-            <textarea placeholder="Оставьте сообщение"></textarea><br>
-            <button>Отправить</button>
+        <form id="contactForm">
+
+            <!-- Ловушка для ботов -->
+            <input type="text" name="_gotcha" style="display:none">
+
+            <!-- Поля формы -->
+            <input type="text" name="name" placeholder="Ваше имя" required><br><br>
+            input type="email" name="email" placeholder="Ваш email" required><br><br>
+            <textarea name="message" placeholder="Оставьте сообщение" required></textarea><br>
+            <button type="submit">Отправить</button>
+            <div id="thankYouMessage" style="display:none; margin-top:20px;">
+                <strong>Спасибо за сообщение!</strong> Мы скоро с вами свяжемся 📨
+            </div>
+            <script>
+                const form = document.getElementById("contactForm");
+                const thankYouMessage = document.getElementById("thankYouMessage");
+            
+                form.addEventListener("submit", function(e) {
+                    e.preventDefault(); // отменяем стандартную отправку формы
+            
+                    // Можно здесь добавить проверку или отправку данных куда-то
+            
+                    form.style.display = "none"; // прячем форму
+                    thankYouMessage.style.display = "block"; // показываем сообщение
+                });
+            </script>
         </form>
         <a href="index.html">Назад</a>
     </body>
