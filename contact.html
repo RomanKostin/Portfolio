@@ -1,30 +1,61 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Контакты</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <h1>Контакты</h1>
-        <p>Я Блынкус, моя почта - blinkus@example.com</p>
-        <h2>Связаться со мной</h2>
-        <form action="https://formsubmit.io/send/romankostin22019@gmail.com" method="POST">
+<head>
+    <meta charset="UTF-8">
+    <title>Контакты</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Контакты</h1>
+    <p>Я Блынкус, моя почта — blinkus@example.com</p>
+    <h2>Связаться со мной</h2>
 
-            <!-- Ловушка для ботов -->
-            <input type="text" name="_gotcha" style="display:none">
+    <form id="contactForm">
+        <input type="text" name="name" placeholder="Ваше имя" required><br><br>
+        <input type="email" name="email" placeholder="Ваш email" required><br><br>
+        <textarea name="message" placeholder="Сообщение" required></textarea><br><br>
+        <button type="submit">Отправить</button>
+    </form>
 
-            <!-- Сообщение после отправки -->
-            <input type="hidden" name="_redirect" value="thanks.html">
-            <!-- Поля формы -->
-            <input type="text" name="name" placeholder="Ваше имя" required><br><br>
-            <input type="email" name="email" placeholder="Ваш email" required><br><br>
-            <textarea name="message" placeholder="Оставьте сообщение" required></textarea><br>
-            <button type="submit">Отправить</button>
-            <div id="thankYouMessage" style="display:none; margin-top:20px;">
-                <strong>Спасибо за сообщение!</strong> Мы скоро с вами свяжемся 📨
-            </div>
-        </form>
-        <a href="index.html">Назад</a>
-    </body>
+    <script>
+        const token = "тут был токен..."; 
+        const chatId = "тут был id...";
+
+        const form = document.getElementById("contactForm");
+
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const name = form.name.value;
+            const email = form.email.value;
+            const message = form.message.value;
+
+            const text = `💌 Новое сообщение с сайта:\n\n👤 Имя: ${name}\n📧 Email: ${email}\n📝 Сообщение: ${message}`;
+
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: text
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Спасибо за сообщение! 📨");
+                    form.reset();
+                } else {
+                    alert("Ошибка при отправке 😢");
+                }
+            })
+            .catch(() => {
+                alert("Сетевая ошибка при отправке 😢");
+            });
+        });
+    </script>
+
+    <a href="index.html">Назад</a>
+</body>
 </html>
